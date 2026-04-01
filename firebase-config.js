@@ -1,21 +1,17 @@
-// firebase-config.js
-
-// Import the Firebase modules that you need in your app
-// import { initializeApp } from 'firebase/app';
-// import { getFirestore } from 'firebase/firestore';
-
-// Your web app's Firebase configuration
+// Firebase Configuration
 const firebaseConfig = {
-    apiKey: 'YOUR_API_KEY',
-    authDomain: 'YOUR_AUTH_DOMAIN',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_STORAGE_BUCKET',
-    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    appId: 'YOUR_APP_ID'
+  apiKey: "AIzaSyA2_hKCLbmwwkSuXxpEHAVjFoSxUN200OU",
+  authDomain: "svgwork-56f4d.firebaseapp.com",
+  databaseURL: "https://svgwork-56f4d-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "svgwork-56f4d",
+  storageBucket: "svgwork-56f4d.firebasestorage.app",
+  messagingSenderId: "366496523954",
+  appId: "1:366496523954:web:66dd655928b925ad848bab" ,
 };
 
 // Initialize Firebase
-// const app = initializeApp(firebaseConfig);
-// const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
 
-// To use Firestore, uncomment the appropriate import statements and initialize it above.
+// Export references
+const auth = firebase.auth();
+const database = firebase.database();
