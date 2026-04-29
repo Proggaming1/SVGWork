@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child Business Store - SVGWork</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .business-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .business-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .business-panel h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .product-emoji {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .product-price {
+            color: #667eea;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .product-stock {
+            font-size: 0.85em;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .btn-buy {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-edit {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .transaction-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            margin-bottom: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .transaction-item.sold {
+            border-left-color: #28a745;
+        }
+
+        .transaction-item.bought {
+            border-left-color: #dc3545;
+        }
+
+        @media (max-width: 768px) {
+            .business-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>🏢 Child Business Store</h1>
+            <button onclick="goToDashboard()" class="btn-back">← Back to Dashboard</button>
+        </header>
+
+        <div class="business-container">
+            <!-- My Store (Child Owner) -->
+            <div class="business-panel" id="my-store-panel" style="display:none;">
+                <h3>🏪 My Store</h3>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Sales</div>
+                        <div class="stat-value" id="total-sales">Rp 0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Items Sold</div>
+                        <div class="stat-value" id="items-sold">0</div>
+                    </div>
+                </div>
+
+                <h4 style="margin: 20px 0 15px 0;">➕ Add Product</h4>
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="product-name" placeholder="e.g., Handcraft, Drawing, Homework Help">
+                </div>
+                <div class="form-group">
+                    <label>Price (Rp)</label>
+                    <input type="number" id="product-price" placeholder="50000" min="0">
+                </div>
+                <div class="form-group">
+                    <label>Emoji/Icon</label>
+                    <input type="text" id="product-emoji" placeholder="🎨" maxlength="2">
+                </div>
+                <div class="form-group">
+                    <label>Stock</label>
+                    <input type="number" id="product-stock" placeholder="10" min="0">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="product-desc" placeholder="Describe your product..." rows="3"></textarea>
+                </div>
+                <button class="btn-primary" onclick="addProduct()">➕ Add Product</button>
+
+                <h4 style="margin: 20px 0 15px 0;">📦 My Products</h4>
+                <div class="product-grid" id="my-products-list"></div>
+
+                <h4 style="margin: 20px 0 15px 0;">📊 Sales History</h4>
+                <div class="transaction-list" id="sales-history"></div>
+            </div>
+
+            <!-- Other Children's Stores (Shopping) -->
+            <div class="business-panel" id="shop-panel" style="display:none;">
+                <h3>🛍️ Other Children's Stores</h3>
+                
+                <div class="form-group">
+                    <label>Search Store</label>
+                    <input type="text" id="search-store" placeholder="Search by store name..." onkeyup="searchStores()">
+                </div>
+
+                <h4 style="margin: 20px 0 15px 0;">🏪 Available Stores</h4>
+                <div id="available-stores"></div>
+
+                <h4 style="margin: 20px 0 15px 0;">🛒 Shopping Cart</h4>
+                <div id="cart-summary">
+                    <p style="text-align: center; color: #999;">Cart is empty</p>
+                </div>
+                <button class="btn-primary" style="background: #28a745;" onclick="checkoutCart()">🛒 Checkout</button>
+
+                <h4 style="margin: 20px 0 15px 0;">📜 Purchase History</h4>
+                <div class="transaction-list" id="purchase-history"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="child-business-store.js"></script>
+</body>
+</html>

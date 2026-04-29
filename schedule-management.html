@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Management - SVGWork</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .schedule-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .schedule-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .schedule-panel h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .time-slot {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 15px;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .time-slot.template {
+            border-left-color: #6c757d;
+            background: #e9ecef;
+        }
+
+        .time-slot.pending {
+            border-left-color: #ffc107;
+            background: #fffbea;
+        }
+
+        .time-slot.approved {
+            border-left-color: #28a745;
+            background: #f0f9f1;
+        }
+
+        .time-input {
+            width: 80px;
+            padding: 8px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .task-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+        }
+
+        .slot-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-small {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .btn-approve {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-reject {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-edit {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-small:hover {
+            opacity: 0.8;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background: #5568d3;
+        }
+
+        .template-locked {
+            opacity: 0.7;
+            background: #e9ecef !important;
+            cursor: not-allowed;
+        }
+
+        .schedule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-template {
+            background: #e9ecef;
+            color: #6c757d;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        @media (max-width: 768px) {
+            .schedule-container {
+                grid-template-columns: 1fr;
+            }
+            .time-slot {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>📅 Schedule Management</h1>
+            <button onclick="goToDashboard()" class="btn-back">← Back to Dashboard</button>
+        </header>
+
+        <div class="schedule-container">
+            <!-- Parent Control Panel -->
+            <div class="schedule-panel" id="parent-panel" style="display:none;">
+                <h3>🎛️ Parent Control Center</h3>
+                
+                <div class="form-group">
+                    <label>Select Child</label>
+                    <select id="parent-child-select" onchange="loadChildSchedule()">
+                        <option value="">Choose child...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Select Date</label>
+                    <input type="date" id="parent-date-select" value="2026-04-29" onchange="loadChildSchedule()">
+                </div>
+
+                <h4 style="margin-top: 20px; margin-bottom: 15px;">📋 Template (Reference)</h4>
+                <div id="template-view" style="max-height: 300px; overflow-y: auto; margin-bottom: 20px;"></div>
+
+                <h4 style="margin: 20px 0 15px 0;">👶 Child Schedule Today</h4>
+                <div id="child-schedule-view" style="max-height: 300px; overflow-y: auto;"></div>
+
+                <h4 style="margin-top: 20px; margin-bottom: 15px;">➕ Add Template Time Slot</h4>
+                <div class="form-group">
+                    <label>Time</label>
+                    <input type="time" id="template-time" required>
+                </div>
+                <div class="form-group">
+                    <label>Task/Activity</label>
+                    <input type="text" id="template-task" placeholder="e.g., Mandi, Sarapan, Belajar" required>
+                </div>
+                <button class="btn-submit" onclick="addTemplateSlot()">➕ Add to Template</button>
+            </div>
+
+            <!-- Child Schedule View -->
+            <div class="schedule-panel" id="child-panel" style="display:none;">
+                <h3>📅 My Daily Schedule</h3>
+                
+                <div class="form-group">
+                    <label>Select Date</label>
+                    <input type="date" id="child-date-select" value="2026-04-29" onchange="loadMySchedule()">
+                </div>
+
+                <h4 style="margin-top: 20px; margin-bottom: 15px;">🔒 Template from Parent (Read-only)</h4>
+                <div id="my-template-view" style="max-height: 250px; overflow-y: auto; margin-bottom: 20px;"></div>
+
+                <h4 style="margin: 20px 0 15px 0;">✏️ My Custom Schedule</h4>
+                <div id="my-schedule-view" style="max-height: 250px; overflow-y: auto; margin-bottom: 20px;"></div>
+
+                <h4 style="margin-top: 20px; margin-bottom: 15px;">➕ Customize Schedule</h4>
+                <div class="form-group">
+                    <label>Time</label>
+                    <input type="time" id="my-time" required>
+                </div>
+                <div class="form-group">
+                    <label>Task/Activity</label>
+                    <input type="text" id="my-task" placeholder="Change from template" required>
+                </div>
+                <button class="btn-submit" onclick="addMyScheduleSlot()">➕ Add Custom Time</button>
+                <button class="btn-submit" style="background: #17a2b8; margin-top: 5px;" onclick="submitScheduleForApproval()">📤 Submit for Approval</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="schedule-management.js"></script>
+</body>
+</html>
