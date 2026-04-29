@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management - SVGWork</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .task-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .task-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .task-panel h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .task-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .task-form input,
+        .task-form textarea,
+        .task-form select {
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1em;
+        }
+
+        .task-form textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .task-form button {
+            padding: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .task-form button:hover {
+            background: #5568d3;
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .task-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .task-info {
+            flex: 1;
+        }
+
+        .task-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .task-description {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85em;
+            color: #999;
+        }
+
+        .task-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+
+        .task-actions button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .btn-complete {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-complete:hover {
+            background: #218838;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+        }
+
+        @media (max-width: 768px) {
+            .task-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>📋 Task Management</h1>
+            <button onclick="goToDashboard()" class="btn-back">← Back to Dashboard</button>
+        </header>
+
+        <div class="task-section">
+            <!-- Parent Panel -->
+            <div class="task-panel parent-panel" id="parent-panel" style="display:none;">
+                <h3>👨‍👩‍👧‍👦 Parent - Create Task</h3>
+                <form class="task-form" id="create-task-form">
+                    <select id="task-child" required>
+                        <option value="">Select Child</option>
+                    </select>
+                    <input type="text" id="task-title" placeholder="Task Title" required>
+                    <textarea id="task-description" placeholder="Task Description"></textarea>
+                    <input type="number" id="task-reward" placeholder="Reward (Rp)" min="0" required>
+                    <select id="task-priority" required>
+                        <option value="low">Low Priority</option>
+                        <option value="medium" selected>Medium Priority</option>
+                        <option value="high">High Priority</option>
+                    </select>
+                    <input type="date" id="task-deadline" required>
+                    <button type="submit">✅ Create Task</button>
+                </form>
+                <h4 style="margin-top: 30px; margin-bottom: 15px;">📊 All Tasks</h4>
+                <div class="task-list" id="parent-task-list"></div>
+            </div>
+
+            <!-- Child Panel -->
+            <div class="task-panel child-panel" id="child-panel" style="display:none;">
+                <h3>👶 Child - My Tasks</h3>
+                <div class="task-list" id="child-task-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="task-management.js"></script>
+</body>
+</html>
