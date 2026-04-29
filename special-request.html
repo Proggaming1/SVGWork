@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Request - SVGWork</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .request-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .request-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .request-panel h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background: #5568d3;
+        }
+
+        .request-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .request-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .request-card.pending {
+            border-left-color: #ffc107;
+            background: #fffbea;
+        }
+
+        .request-card.approved {
+            border-left-color: #28a745;
+            background: #f0f9f1;
+        }
+
+        .request-card.rejected {
+            border-left-color: #dc3545;
+            background: #fadad3;
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+
+        .request-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .request-amount {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .request-desc {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .request-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85em;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .btn-approve {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-reject {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-action:hover {
+            opacity: 0.8;
+        }
+
+        .priority-select {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .priority-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .priority-btn:hover {
+            border-color: #667eea;
+        }
+
+        .priority-btn.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .priority-low { border-color: #17a2b8; }
+        .priority-low.active { background: #17a2b8; }
+        .priority-medium { border-color: #ffc107; }
+        .priority-medium.active { background: #ffc107; color: #333; }
+        .priority-high { border-color: #dc3545; }
+        .priority-high.active { background: #dc3545; }
+
+        @media (max-width: 768px) {
+            .request-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>🎁 Special Request</h1>
+            <button onclick="goToDashboard()" class="btn-back">← Back to Dashboard</button>
+        </header>
+
+        <div class="request-container">
+            <!-- Child - Make Request -->
+            <div class="request-panel" id="child-panel" style="display:none;">
+                <h3>👧 Make Special Request</h3>
+                
+                <div class="form-group">
+                    <label>Request Type</label>
+                    <select id="request-type" required>
+                        <option value="">Choose type...</option>
+                        <option value="allowance">Extra Allowance</option>
+                        <option value="gift">Gift/Toy</option>
+                        <option value="snack">Snack</option>
+                        <option value="outing">Outing/Activity</option>
+                        <option value="gadget">Gadget</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Priority</label>
+                    <div class="priority-select">
+                        <button type="button" class="priority-btn priority-low" id="priority-low" onclick="selectPriority('low')">🟢 Low</button>
+                        <button type="button" class="priority-btn priority-medium active" id="priority-medium" onclick="selectPriority('medium')">🟡 Medium</button>
+                        <button type="button" class="priority-btn priority-high" id="priority-high" onclick="selectPriority('high')">🔴 High</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>What do you want? (Rp)</label>
+                    <input type="number" id="request-amount" placeholder="50000" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="request-desc" placeholder="Tell us why you need this..." required></textarea>
+                </div>
+
+                <button class="btn-submit" onclick="makeRequest()">🎁 Send Request</button>
+
+                <h4 style="margin-top: 30px; margin-bottom: 15px;">📋 My Requests</h4>
+                <div class="request-list" id="my-requests-list"></div>
+            </div>
+
+            <!-- Parent - Approve/Reject Requests -->
+            <div class="request-panel" id="parent-panel" style="display:none;">
+                <h3>👨‍👩‍👧‍👦 Review Requests</h3>
+                
+                <div class="form-group">
+                    <label>Filter by Child</label>
+                    <select id="parent-child-filter" onchange="loadRequests()">
+                        <option value="">All children</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Filter by Status</label>
+                    <select id="parent-status-filter" onchange="loadRequests()">
+                        <option value="">All statuses</option>
+                        <option value="pending">⏳ Pending</option>
+                        <option value="approved">✅ Approved</option>
+                        <option value="rejected">❌ Rejected</option>
+                    </select>
+                </div>
+
+                <h4 style="margin-top: 20px; margin-bottom: 15px;">📊 Requests to Review</h4>
+                <div class="request-list" id="parent-requests-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="special-request.js"></script>
+</body>
+</html>
