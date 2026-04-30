@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax System - SVGWork</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .tax-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .tax-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .tax-panel h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .tax-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .tax-card h4 {
+            opacity: 0.9;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .tax-amount {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .tax-breakdown {
+            font-size: 0.9em;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .tax-breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .income-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .income-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .income-item:last-child {
+            border-bottom: none;
+        }
+
+        .income-label {
+            color: #666;
+        }
+
+        .income-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .tax-summary {
+            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tax-summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .btn-pay-tax {
+            width: 100%;
+            padding: 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .btn-pay-tax:hover {
+            background: #218838;
+        }
+
+        .btn-pay-tax.paid {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .status-unpaid {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-paid {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .payment-history {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .payment-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #28a745;
+        }
+
+        .payment-item.pending {
+            border-left-color: #ffc107;
+            background: #fffbea;
+        }
+
+        .payment-month {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .payment-amount {
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .payment-date {
+            font-size: 0.85em;
+            color: #999;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .report-table th,
+        .report-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .report-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .report-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        @media (max-width: 768px) {
+            .tax-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>💳 Tax System</h1>
+            <button onclick="goToDashboard()" class="btn-back">← Back to Dashboard</button>
+        </header>
+
+        <div class="tax-container">
+            <!-- Child - Pay Tax -->
+            <div class="tax-panel" id="child-panel" style="display:none;">
+                <h3>👧 My Monthly Tax</h3>
+                
+                <div id="current-month-status"></div>
+
+                <div class="tax-card" id="tax-card">
+                    <h4>💳 Tax Due (10%)</h4>
+                    <div class="tax-amount" id="tax-amount">Rp 0</div>
+                    <div class="tax-breakdown" id="tax-breakdown">
+                        <div class="tax-breakdown-item">
+                            <span>Task Income:</span>
+                            <span id="task-income">Rp 0</span>
+                        </div>
+                        <div class="tax-breakdown-item">
+                            <span>Business Income:</span>
+                            <span id="business-income">Rp 0</span>
+                        </div>
+                        <div class="tax-breakdown-item" style="border-bottom: 2px solid rgba(255,255,255,0.5);">
+                            <span>Total Income:</span>
+                            <span id="total-income">Rp 0</span>
+                        </div>
+                        <div class="tax-breakdown-item" style="border-bottom: none;">
+                            <span style="font-weight: 600;">Tax (10%):</span>
+                            <span style="font-weight: 700;">-Rp 0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-pay-tax" id="pay-tax-btn" onclick="payMonthlyTax()">💳 Pay Monthly Tax</button>
+
+                <h4 style="margin-top: 30px; margin-bottom: 15px;">📊 Payment History</h4>
+                <div class="payment-history" id="payment-history"></div>
+            </div>
+
+            <!-- Parent - Manage Tax -->
+            <div class="tax-panel" id="parent-panel" style="display:none;">
+                <h3>👨‍👩‍👧‍👦 Children Tax Management</h3>
+                
+                <div class="form-group">
+                    <label>Select Child</label>
+                    <select id="parent-child-select" onchange="loadChildTaxInfo()">
+                        <option value="">Choose child...</option>
+                    </select>
+                </div>
+
+                <div id="child-tax-info"></div>
+
+                <h4 style="margin-top: 30px; margin-bottom: 15px;">📊 Tax Report</h4>
+                <div id="tax-report"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="tax-system.js"></script>
+</body>
+</html>
