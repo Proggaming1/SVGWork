@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SVGWork - Family Economy Management</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
         * {
             margin: 0;
@@ -129,7 +128,7 @@
             color: white;
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             background: #5568d3;
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
@@ -144,6 +143,15 @@
         .error-message {
             background: #f8d7da;
             color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 20px;
@@ -169,6 +177,21 @@
         .demo-accounts p {
             margin: 5px 0;
         }
+
+        @media (max-width: 600px) {
+            .login-box {
+                border-radius: 0;
+            }
+            .login-header {
+                padding: 30px 20px;
+            }
+            .login-header h1 {
+                font-size: 2em;
+            }
+            .tab-content {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -187,6 +210,7 @@
             <!-- Parent Login Tab -->
             <div class="tab-content active" id="parent-tab">
                 <div class="error-message" id="parent-error"></div>
+                <div class="success-message" id="parent-success"></div>
                 <form id="parent-login-form">
                     <div class="form-group">
                         <label for="parent-email">📧 Email</label>
@@ -208,6 +232,7 @@
             <!-- Child Login Tab -->
             <div class="tab-content" id="child-tab">
                 <div class="error-message" id="child-error"></div>
+                <div class="success-message" id="child-success"></div>
                 <form id="child-login-form">
                     <div class="form-group">
                         <label for="child-email">📧 Email</label>
@@ -228,17 +253,20 @@
         </div>
     </div>
 
-    <!-- Firebase Scripts -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
-    
-    <!-- Config & Auth -->
-    <script src="firebase-config.js"></script>
-    <script src="auth.js"></script>
-    
-    <!-- Tab Navigation -->
     <script>
+        // ===== DEMO ACCOUNTS DATABASE =====
+        const demoAccounts = {
+            parent: [
+                { email: 'papa@svgwork.com', password: 'Papa12345!', name: 'Papa' },
+                { email: 'mama@svgwork.com', password: 'Mama12345!', name: 'Mama' }
+            ],
+            child: [
+                { email: 'anak1@svgwork.com', password: 'Anak12345!', name: 'Anak 1' },
+                { email: 'anak2@svgwork.com', password: 'Anak22345!', name: 'Anak 2' }
+            ]
+        };
+
+        // ===== TAB NAVIGATION =====
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const tab = e.target.getAttribute('data-tab');
@@ -251,6 +279,84 @@
                 e.target.classList.add('active');
                 document.getElementById(tab + '-tab').classList.add('active');
             });
+        });
+
+        // ===== PARENT LOGIN HANDLER =====
+        document.getElementById('parent-login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('parent-email').value.trim();
+            const password = document.getElementById('parent-password').value;
+            const errorDiv = document.getElementById('parent-error');
+            const successDiv = document.getElementById('parent-success');
+            const btn = this.querySelector('button[type="submit"]');
+            
+            // Reset messages
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            
+            // Validate demo account
+            const account = demoAccounts.parent.find(acc => acc.email === email && acc.password === password);
+            
+            if (account) {
+                // Success
+                localStorage.setItem('userRole', 'parent');
+                localStorage.setItem('userId', email);
+                localStorage.setItem('userName', account.name);
+                
+                successDiv.textContent = '✅ Login Berhasil! Redirecting...';
+                successDiv.style.display = 'block';
+                btn.textContent = '✅ Login Berhasil...';
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    window.location.href = 'main-dashboard.html';
+                }, 1500);
+            } else {
+                // Failed
+                errorDiv.textContent = '❌ Email atau password salah!';
+                errorDiv.style.display = 'block';
+                document.getElementById('parent-password').value = '';
+            }
+        });
+
+        // ===== CHILD LOGIN HANDLER =====
+        document.getElementById('child-login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('child-email').value.trim();
+            const password = document.getElementById('child-password').value;
+            const errorDiv = document.getElementById('child-error');
+            const successDiv = document.getElementById('child-success');
+            const btn = this.querySelector('button[type="submit"]');
+            
+            // Reset messages
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            
+            // Validate demo account
+            const account = demoAccounts.child.find(acc => acc.email === email && acc.password === password);
+            
+            if (account) {
+                // Success
+                localStorage.setItem('userRole', 'child');
+                localStorage.setItem('userId', email);
+                localStorage.setItem('userName', account.name);
+                
+                successDiv.textContent = '✅ Login Berhasil! Redirecting...';
+                successDiv.style.display = 'block';
+                btn.textContent = '✅ Login Berhasil...';
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    window.location.href = 'main-dashboard.html';
+                }, 1500);
+            } else {
+                // Failed
+                errorDiv.textContent = '❌ Email atau password salah!';
+                errorDiv.style.display = 'block';
+                document.getElementById('child-password').value = '';
+            }
         });
     </script>
 </body>
