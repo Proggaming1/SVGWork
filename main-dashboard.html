@@ -12,169 +12,248 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f7fa;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
             padding: 20px;
         }
 
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
         header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 40px;
+            border-radius: 20px;
             margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .header-left h1 {
-            font-size: 2em;
+            font-size: 2.2em;
+            color: #667eea;
             margin-bottom: 5px;
         }
 
         .header-left p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .balance-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .balance-display h3 {
+            font-size: 0.85em;
             opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .balance-display p {
+            font-size: 1.8em;
+            font-weight: bold;
         }
 
         .logout-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid white;
+            background: #ff6b6b;
             color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
         }
 
         .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: #ee5a52;
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
         }
 
-        .user-info {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
+        .user-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 20px;
             margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
         }
 
-        .user-details h2 {
-            font-size: 1.5em;
-            color: #333;
-            margin-bottom: 10px;
+        .user-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
         }
 
-        .user-details p {
-            color: #666;
-            font-size: 0.95em;
-        }
-
-        .balance-box {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px 40px;
-            border-radius: 12px;
+        .user-info-item {
             text-align: center;
         }
 
-        .balance-box h3 {
-            opacity: 0.9;
-            margin-bottom: 10px;
+        .user-info-item h3 {
+            color: #999;
             font-size: 0.9em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .balance-box p {
-            font-size: 2.5em;
-            font-weight: bold;
+        .user-info-item p {
+            font-size: 1.6em;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .section-header {
+            color: white;
+            font-size: 2em;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-header::before {
+            content: '';
+            width: 5px;
+            height: 35px;
+            background: #ffd93d;
+            border-radius: 3px;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
 
         .feature-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 2px solid transparent;
-            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
             border-color: #667eea;
         }
 
         .feature-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
+            font-size: 3.5em;
+            margin-bottom: 20px;
         }
 
         .feature-card h3 {
             color: #333;
+            font-size: 1.3em;
             margin-bottom: 10px;
-            font-size: 1.2em;
         }
 
         .feature-card p {
             color: #666;
-            font-size: 0.9em;
-            line-height: 1.5;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 15px;
         }
 
-        .section-title {
-            font-size: 1.8em;
-            color: #333;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
+        .feature-badge {
             display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
         }
 
-        .coming-soon {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 30px;
-            color: #856404;
+        .empty-state {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px;
+            border-radius: 20px;
+            text-align: center;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h2 {
+            font-size: 1.8em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
         }
 
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
                 text-align: center;
-                gap: 15px;
             }
 
-            .user-info {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
+            .header-left h1 {
+                font-size: 1.8em;
             }
 
             .features-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                font-size: 1.5em;
             }
         }
     </style>
@@ -184,130 +263,165 @@
         <!-- Header -->
         <header>
             <div class="header-left">
-                <h1>🏠 SVGWork Dashboard</h1>
-                <p id="user-role">Welcome!</p>
+                <h1>🏠 SVGWork</h1>
+                <p id="user-role">Selamat datang!</p>
             </div>
-            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            <div class="header-right">
+                <div class="balance-display">
+                    <h3>💰 Saldo</h3>
+                    <p id="user-balance">Rp 0</p>
+                </div>
+                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            </div>
         </header>
 
-        <!-- User Info -->
-        <div class="user-info">
-            <div class="user-details">
-                <h2 id="user-name">User Name</h2>
-                <p id="user-email">user@example.com</p>
-                <p id="user-type">Role: Parent</p>
-            </div>
-            <div class="balance-box">
-                <h3>💰 Balance</h3>
-                <p id="user-balance">Rp 0</p>
+        <!-- User Info Card -->
+        <div class="user-card">
+            <div class="user-info-grid">
+                <div class="user-info-item">
+                    <h3>👤 Nama</h3>
+                    <p id="user-name">-</p>
+                </div>
+                <div class="user-info-item">
+                    <h3>📧 Email</h3>
+                    <p id="user-email" style="font-size: 0.9em;">-</p>
+                </div>
+                <div class="user-info-item">
+                    <h3>👥 Peran</h3>
+                    <p id="user-type">-</p>
+                </div>
             </div>
         </div>
 
-        <!-- Parent Features -->
+        <!-- Parent Section -->
         <div id="parent-section" style="display: none;">
-            <h2 class="section-title">👨‍👩 Parent Features</h2>
+            <div class="section-header">👨‍👩 Fitur Orang Tua</div>
             <div class="features-grid">
+                <div class="feature-card" onclick="goToFeature('parent-dashboard')">
+                    <div class="feature-icon">📊</div>
+                    <h3>Dashboard Anak</h3>
+                    <p>Lihat data dan perkembangan semua anak</p>
+                    <span class="feature-badge">Parent</span>
+                </div>
+
                 <div class="feature-card" onclick="goToFeature('task-management')">
                     <div class="feature-icon">📋</div>
-                    <h3>Task Management</h3>
-                    <p>Create tasks and set rewards for children</p>
+                    <h3>Manajemen Tugas</h3>
+                    <p>Buat tugas dan tentukan reward</p>
+                    <span class="feature-badge">Parent</span>
                 </div>
 
                 <div class="feature-card" onclick="goToFeature('payment-system')">
-                    <div class="feature-icon">💰</div>
-                    <h3>Payment System</h3>
-                    <p>Manage payments and allowances</p>
-                </div>
-
-                <div class="feature-card" onclick="goToFeature('chat')">
-                    <div class="feature-icon">💬</div>
-                    <h3>Chat</h3>
-                    <p>Communicate with family members</p>
+                    <div class="feature-icon">💵</div>
+                    <h3>Sistem Pembayaran</h3>
+                    <p>Kelola uang jajan dan pembayaran</p>
+                    <span class="feature-badge">Parent</span>
                 </div>
 
                 <div class="feature-card" onclick="goToFeature('mama-store')">
                     <div class="feature-icon">🍽️</div>
-                    <h3>Mama Food Store</h3>
-                    <p>Sell food items to children</p>
+                    <h3>Toko Makanan Mama</h3>
+                    <p>Jual makanan kepada anak-anak</p>
+                    <span class="feature-badge">Parent</span>
                 </div>
 
                 <div class="feature-card" onclick="goToFeature('schedule-management')">
                     <div class="feature-icon">📅</div>
-                    <h3>Schedule Management</h3>
-                    <p>Manage children's schedules</p>
+                    <h3>Manajemen Jadwal</h3>
+                    <p>Atur jadwal dan kegiatan anak</p>
+                    <span class="feature-badge">Parent</span>
                 </div>
 
                 <div class="feature-card" onclick="goToFeature('special-request')">
                     <div class="feature-icon">🎁</div>
-                    <h3>Special Requests</h3>
-                    <p>Review children's special requests</p>
+                    <h3>Permintaan Khusus</h3>
+                    <p>Terima permintaan dari anak</p>
+                    <span class="feature-badge">Parent</span>
                 </div>
 
                 <div class="feature-card" onclick="goToFeature('tax-system')">
-                    <div class="feature-icon">💸</div>
-                    <h3>Tax Management</h3>
-                    <p>Monitor children's tax payments (10%)</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Child Features -->
-        <div id="child-section" style="display: none;">
-            <h2 class="section-title">👧👦 Child Features</h2>
-            <div class="features-grid">
-                <div class="feature-card" onclick="goToFeature('complete-tasks')">
-                    <div class="feature-icon">✅</div>
-                    <h3>Complete Tasks</h3>
-                    <p>Complete parent tasks and earn rewards</p>
-                </div>
-
-                <div class="feature-card" onclick="goToFeature('my-business')">
-                    <div class="feature-icon">🏢</div>
-                    <h3>My Business Store</h3>
-                    <p>Create your own shop and sell products</p>
-                </div>
-
-                <div class="feature-card" onclick="goToFeature('buy-from-others')">
-                    <div class="feature-icon">🛍️</div>
-                    <h3>Buy from Others</h3>
-                    <p>Shop from other children's stores</p>
-                </div>
-
-                <div class="feature-card" onclick="goToFeature('food-ordering')">
-                    <div class="feature-icon">🍕</div>
-                    <h3>Food Ordering</h3>
-                    <p>Order food from Mama's store</p>
-                </div>
-
-                <div class="feature-card" onclick="goToFeature('my-schedule')">
-                    <div class="feature-icon">📆</div>
-                    <h3>My Schedule</h3>
-                    <p>Create and manage your daily schedule</p>
-                </div>
-
-                <div class="feature-card" onclick="goToFeature('special-request-child')">
-                    <div class="feature-icon">🙏</div>
-                    <h3>Special Request</h3>
-                    <p>Request something special from parents</p>
-                </div>
-
-                <div class="feature-card" onclick="goToFeature('pay-tax')">
-                    <div class="feature-icon">📊</div>
-                    <h3>Pay Tax</h3>
-                    <p>Pay your 10% monthly tax</p>
+                    <div class="feature-icon">📈</div>
+                    <h3>Manajemen Pajak</h3>
+                    <p>Monitor pajak anak (10%)</p>
+                    <span class="feature-badge">Parent</span>
                 </div>
 
                 <div class="feature-card" onclick="goToFeature('chat')">
                     <div class="feature-icon">💬</div>
-                    <h3>Chat</h3>
-                    <p>Talk with family members</p>
+                    <h3>Chat Keluarga</h3>
+                    <p>Komunikasi dengan keluarga</p>
+                    <span class="feature-badge">Parent</span>
                 </div>
             </div>
         </div>
 
-        <!-- Coming Soon Info -->
-        <div class="coming-soon">
-            <strong>📌 Note:</strong> Feature pages are being developed. Click on any feature card to see its details.
+        <!-- Child Section -->
+        <div id="child-section" style="display: none;">
+            <div class="section-header">👧👦 Fitur Anak</div>
+            <div class="features-grid">
+                <div class="feature-card" onclick="goToFeature('my-balance')">
+                    <div class="feature-icon">💰</div>
+                    <h3>Saldo & Statistik</h3>
+                    <p>Lihat saldo dan riwayat transaksi</p>
+                    <span class="feature-badge">Child</span>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('complete-tasks')">
+                    <div class="feature-icon">✅</div>
+                    <h3>Selesaikan Tugas</h3>
+                    <p>Kerjakan tugas dan dapatkan reward</p>
+                    <span class="feature-badge">Child</span>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('my-business')">
+                    <div class="feature-icon">🏪</div>
+                    <h3>Toko Saya</h3>
+                    <p>Buat toko dan jual produk</p>
+                    <span class="feature-badge">Child</span>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('buy-from-others')">
+                    <div class="feature-icon">🛍️</div>
+                    <h3>Belanja ke Toko Lain</h3>
+                    <p>Belanja produk dari toko anak lain</p>
+                    <span class="feature-badge">Child</span>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('food-ordering')">
+                    <div class="feature-icon">🍕</div>
+                    <h3>Pesan Makanan</h3>
+                    <p>Pesan makanan dari toko mama</p>
+                    <span class="feature-badge">Child</span>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('my-schedule')">
+                    <div class="feature-icon">📆</div>
+                    <h3>Jadwal Saya</h3>
+                    <p>Buat dan atur jadwal harian</p>
+                    <span class="feature-badge">Child</span>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('special-request-child')">
+                    <div class="feature-icon">🙏</div>
+                    <h3>Permintaan Khusus</h3>
+                    <p>Minta sesuatu dari orang tua</p>
+                    <span class="feature-badge">Child</span>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('pay-tax')">
+                    <div class="feature-icon">💸</div>
+                    <h3>Bayar Pajak</h3>
+                    <p>Bayar pajak bulanan 10%</p>
+                    <span class="feature-badge">Child</span>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('chat')">
+                    <div class="feature-icon">💬</div>
+                    <h3>Chat Keluarga</h3>
+                    <p>Komunikasi dengan keluarga</p>
+                    <span class="feature-badge">Child</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -319,7 +433,7 @@
             const userId = localStorage.getItem('userId');
 
             if (!userRole || !userName || !userId) {
-                alert('Please login first!');
+                alert('Silakan login terlebih dahulu!');
                 window.location.href = 'index.html';
                 return;
             }
@@ -327,25 +441,41 @@
             // Display user info
             document.getElementById('user-name').textContent = userName;
             document.getElementById('user-email').textContent = userId;
-            document.getElementById('user-type').textContent = `Role: ${userRole.charAt(0).toUpperCase() + userRole.slice(1)}`;
-            document.getElementById('user-role').textContent = `Welcome, ${userName}!`;
+            document.getElementById('user-type').textContent = userRole === 'parent' ? 'Orang Tua' : 'Anak';
+            document.getElementById('user-role').textContent = `Selamat datang, ${userName}!`;
 
             // Show appropriate section
             if (userRole === 'parent') {
                 document.getElementById('parent-section').style.display = 'block';
+                // Parent modal: 1 juta
+                let balance = parseInt(localStorage.getItem('parentBalance')) || 1000000000;
+                localStorage.setItem('parentBalance', balance);
             } else if (userRole === 'child') {
                 document.getElementById('child-section').style.display = 'block';
+                // Child modal: 10 juta
+                let balance = parseInt(localStorage.getItem('childBalance')) || 10000000;
+                localStorage.setItem('childBalance', balance);
             }
 
-            // Set random balance for demo
-            const balance = Math.floor(Math.random() * 5000000) + 500000;
-            document.getElementById('user-balance').textContent = 'Rp ' + balance.toLocaleString('id-ID');
+            // Display balance
+            updateBalance();
         });
+
+        function updateBalance() {
+            const userRole = localStorage.getItem('userRole');
+            const balance = userRole === 'parent' 
+                ? (parseInt(localStorage.getItem('parentBalance')) || 1000000000)
+                : (parseInt(localStorage.getItem('childBalance')) || 10000000);
+            
+            document.getElementById('user-balance').textContent = 'Rp ' + balance.toLocaleString('id-ID');
+        }
 
         // Logout function
         function logout() {
             if (confirm('Apakah Anda yakin ingin logout?')) {
-                localStorage.clear();
+                localStorage.removeItem('userRole');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userName');
                 window.location.href = 'index.html';
             }
         }
@@ -353,13 +483,15 @@
         // Go to feature function
         function goToFeature(featureName) {
             const featureMap = {
+                'parent-dashboard': 'parent-dashboard.html',
                 'task-management': 'task-management.html',
                 'payment-system': 'payment-system.html',
-                'chat': 'chat.html',
                 'mama-store': 'mama-store.html',
                 'schedule-management': 'schedule-management.html',
                 'special-request': 'special-request.html',
                 'tax-system': 'tax-system.html',
+                'chat': 'chat.html',
+                'my-balance': 'my-balance.html',
                 'complete-tasks': 'complete-tasks.html',
                 'my-business': 'my-business.html',
                 'buy-from-others': 'buy-from-others.html',
@@ -373,7 +505,7 @@
             if (url) {
                 window.location.href = url;
             } else {
-                alert('Feature page not found: ' + featureName);
+                alert('Halaman fitur tidak ditemukan');
             }
         }
     </script>
