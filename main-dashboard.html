@@ -3,61 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - SVGWork</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>SVGWork Dashboard</title>
     <style>
-        .dashboard-main {
-            margin-top: 30px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
         }
 
-        .stat-card {
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            text-align: center;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
         }
 
-        .stat-label {
-            font-size: 0.9em;
+        .header-left h1 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .header-left p {
             opacity: 0.9;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .user-info {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-details h2 {
+            font-size: 1.5em;
+            color: #333;
             margin-bottom: 10px;
         }
 
-        .stat-value {
-            font-size: 2em;
-            font-weight: 700;
+        .user-details p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .balance-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .balance-box h3 {
+            opacity: 0.9;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .balance-box p {
+            font-size: 2.5em;
+            font-weight: bold;
         }
 
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .feature-card {
             background: white;
-            padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            text-align: center;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            text-align: center;
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
             border-color: #667eea;
         }
 
@@ -66,87 +130,49 @@
             margin-bottom: 15px;
         }
 
-        .feature-name {
-            font-weight: 600;
+        .feature-card h3 {
             color: #333;
-            margin-bottom: 8px;
-            font-size: 1.1em;
-        }
-
-        .feature-desc {
-            font-size: 0.9em;
-            color: #666;
-            margin-bottom: 15px;
-        }
-
-        .feature-btn {
-            padding: 10px 20px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.3s ease;
-        }
-
-        .feature-btn:hover {
-            background: #5568d3;
-        }
-
-        .notifications {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            margin-bottom: 40px;
-        }
-
-        .notification-item {
-            display: flex;
-            align-items: start;
-            gap: 15px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
             margin-bottom: 10px;
-            border-left: 4px solid #667eea;
+            font-size: 1.2em;
         }
 
-        .notification-icon {
-            font-size: 1.5em;
-            flex-shrink: 0;
-        }
-
-        .notification-content {
-            flex: 1;
-        }
-
-        .notification-title {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .notification-desc {
-            font-size: 0.9em;
+        .feature-card p {
             color: #666;
+            font-size: 0.9em;
+            line-height: 1.5;
         }
 
         .section-title {
-            font-size: 1.5em;
-            font-weight: 700;
+            font-size: 1.8em;
             color: #333;
             margin-bottom: 20px;
-            margin-top: 40px;
-            border-bottom: 3px solid #667eea;
             padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
+        }
+
+        .coming-soon {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 30px;
+            color: #856404;
         }
 
         @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
+            header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
             }
+
+            .user-info {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
             .features-grid {
                 grid-template-columns: 1fr;
             }
@@ -154,29 +180,202 @@
     </style>
 </head>
 <body>
-    <div class="dashboard-container">
+    <div class="container">
+        <!-- Header -->
         <header>
-            <h1>🏠 SVGWork Dashboard</h1>
-            <button onclick="logout()" class="btn-back">🚪 Logout</button>
+            <div class="header-left">
+                <h1>🏠 SVGWork Dashboard</h1>
+                <p id="user-role">Welcome!</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
         </header>
 
-        <div class="dashboard-main">
-            <!-- Stats Section -->
-            <div id="stats-section"></div>
+        <!-- User Info -->
+        <div class="user-info">
+            <div class="user-details">
+                <h2 id="user-name">User Name</h2>
+                <p id="user-email">user@example.com</p>
+                <p id="user-type">Role: Parent</p>
+            </div>
+            <div class="balance-box">
+                <h3>💰 Balance</h3>
+                <p id="user-balance">Rp 0</p>
+            </div>
+        </div>
 
-            <!-- Notifications -->
-            <div class="notifications" id="notifications-section"></div>
+        <!-- Parent Features -->
+        <div id="parent-section" style="display: none;">
+            <h2 class="section-title">👨‍👩 Parent Features</h2>
+            <div class="features-grid">
+                <div class="feature-card" onclick="goToFeature('task-management')">
+                    <div class="feature-icon">📋</div>
+                    <h3>Task Management</h3>
+                    <p>Create tasks and set rewards for children</p>
+                </div>
 
-            <!-- Features Section -->
-            <div class="section-title">📋 Features</div>
-            <div class="features-grid" id="features-section"></div>
+                <div class="feature-card" onclick="goToFeature('payment-system')">
+                    <div class="feature-icon">💰</div>
+                    <h3>Payment System</h3>
+                    <p>Manage payments and allowances</p>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('chat')">
+                    <div class="feature-icon">💬</div>
+                    <h3>Chat</h3>
+                    <p>Communicate with family members</p>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('mama-store')">
+                    <div class="feature-icon">🍽️</div>
+                    <h3>Mama Food Store</h3>
+                    <p>Sell food items to children</p>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('schedule-management')">
+                    <div class="feature-icon">📅</div>
+                    <h3>Schedule Management</h3>
+                    <p>Manage children's schedules</p>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('special-request')">
+                    <div class="feature-icon">🎁</div>
+                    <h3>Special Requests</h3>
+                    <p>Review children's special requests</p>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('tax-system')">
+                    <div class="feature-icon">💸</div>
+                    <h3>Tax Management</h3>
+                    <p>Monitor children's tax payments (10%)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Child Features -->
+        <div id="child-section" style="display: none;">
+            <h2 class="section-title">👧👦 Child Features</h2>
+            <div class="features-grid">
+                <div class="feature-card" onclick="goToFeature('complete-tasks')">
+                    <div class="feature-icon">✅</div>
+                    <h3>Complete Tasks</h3>
+                    <p>Complete parent tasks and earn rewards</p>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('my-business')">
+                    <div class="feature-icon">🏢</div>
+                    <h3>My Business Store</h3>
+                    <p>Create your own shop and sell products</p>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('buy-from-others')">
+                    <div class="feature-icon">🛍️</div>
+                    <h3>Buy from Others</h3>
+                    <p>Shop from other children's stores</p>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('food-ordering')">
+                    <div class="feature-icon">🍕</div>
+                    <h3>Food Ordering</h3>
+                    <p>Order food from Mama's store</p>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('my-schedule')">
+                    <div class="feature-icon">📆</div>
+                    <h3>My Schedule</h3>
+                    <p>Create and manage your daily schedule</p>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('special-request-child')">
+                    <div class="feature-icon">🙏</div>
+                    <h3>Special Request</h3>
+                    <p>Request something special from parents</p>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('pay-tax')">
+                    <div class="feature-icon">📊</div>
+                    <h3>Pay Tax</h3>
+                    <p>Pay your 10% monthly tax</p>
+                </div>
+
+                <div class="feature-card" onclick="goToFeature('chat')">
+                    <div class="feature-icon">💬</div>
+                    <h3>Chat</h3>
+                    <p>Talk with family members</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coming Soon Info -->
+        <div class="coming-soon">
+            <strong>📌 Note:</strong> Feature pages are being developed. Click on any feature card to see its details.
         </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="main-dashboard.js"></script>
+    <script>
+        // Initialize Dashboard
+        window.addEventListener('DOMContentLoaded', function() {
+            const userRole = localStorage.getItem('userRole');
+            const userName = localStorage.getItem('userName');
+            const userId = localStorage.getItem('userId');
+
+            if (!userRole || !userName || !userId) {
+                alert('Please login first!');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Display user info
+            document.getElementById('user-name').textContent = userName;
+            document.getElementById('user-email').textContent = userId;
+            document.getElementById('user-type').textContent = `Role: ${userRole.charAt(0).toUpperCase() + userRole.slice(1)}`;
+            document.getElementById('user-role').textContent = `Welcome, ${userName}!`;
+
+            // Show appropriate section
+            if (userRole === 'parent') {
+                document.getElementById('parent-section').style.display = 'block';
+            } else if (userRole === 'child') {
+                document.getElementById('child-section').style.display = 'block';
+            }
+
+            // Set random balance for demo
+            const balance = Math.floor(Math.random() * 5000000) + 500000;
+            document.getElementById('user-balance').textContent = 'Rp ' + balance.toLocaleString('id-ID');
+        });
+
+        // Logout function
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                localStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Go to feature function
+        function goToFeature(featureName) {
+            const featureMap = {
+                'task-management': 'task-management.html',
+                'payment-system': 'payment-system.html',
+                'chat': 'chat.html',
+                'mama-store': 'mama-store.html',
+                'schedule-management': 'schedule-management.html',
+                'special-request': 'special-request.html',
+                'tax-system': 'tax-system.html',
+                'complete-tasks': 'complete-tasks.html',
+                'my-business': 'my-business.html',
+                'buy-from-others': 'buy-from-others.html',
+                'food-ordering': 'food-ordering.html',
+                'my-schedule': 'my-schedule.html',
+                'special-request-child': 'special-request-child.html',
+                'pay-tax': 'pay-tax.html'
+            };
+
+            const url = featureMap[featureName];
+            if (url) {
+                window.location.href = url;
+            } else {
+                alert('Feature page not found: ' + featureName);
+            }
+        }
+    </script>
 </body>
 </html>
