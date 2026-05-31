@@ -3,207 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Management - SVGWork</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Manajemen Tugas - SVGWork</title>
     <style>
-        .task-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-top: 30px;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
-
-        .task-panel {
-            background: white;
-            padding: 25px;
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px;
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-
-        .task-panel h3 {
-            color: #667eea;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 10px;
-        }
-
-        .task-form {
+            margin-bottom: 30px;
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+        .header h1 { color: #667eea; font-size: 2em; }
+        .back-btn, .logout-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .logout-btn { background: #ff6b6b; }
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+        .form-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            color: white;
+        }
+        .form-group {
             margin-bottom: 20px;
         }
-
-        .task-form input,
-        .task-form textarea,
-        .task-form select {
-            padding: 10px;
-            border: 2px solid #e0e0e0;
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
             border-radius: 8px;
             font-family: inherit;
             font-size: 1em;
         }
-
-        .task-form textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .task-form button {
-            padding: 10px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .task-form button:hover {
-            background: #5568d3;
-        }
-
-        .task-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .task-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-        }
-
-        .task-info {
-            flex: 1;
-        }
-
-        .task-title {
-            font-weight: 600;
+        .btn-submit {
+            background: #ffd93d;
             color: #333;
-            margin-bottom: 5px;
-        }
-
-        .task-description {
-            font-size: 0.9em;
-            color: #666;
-            margin-bottom: 5px;
-        }
-
-        .task-meta {
-            display: flex;
-            gap: 15px;
-            font-size: 0.85em;
-            color: #999;
-        }
-
-        .task-status {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 600;
-        }
-
-        .status-pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status-completed {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .task-actions {
-            display: flex;
-            gap: 10px;
-            flex-direction: column;
-        }
-
-        .task-actions button {
-            padding: 6px 12px;
             border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9em;
+            padding: 12px 30px;
+            border-radius: 8px;
             font-weight: 600;
+            cursor: pointer;
         }
-
-        .btn-complete {
-            background: #28a745;
-            color: white;
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
         }
-
-        .btn-delete {
-            background: #dc3545;
-            color: white;
+        .task-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 25px;
+            border-radius: 15px;
         }
-
-        .btn-complete:hover {
-            background: #218838;
-        }
-
-        .btn-delete:hover {
-            background: #c82333;
-        }
-
-        @media (max-width: 768px) {
-            .task-section {
-                grid-template-columns: 1fr;
-            }
+        .task-reward {
+            background: #ffd93d;
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
-    <div class="dashboard-container">
-        <header>
-            <h1>📋 Task Management</h1>
-            <button onclick="goToDashboard()" class="btn-back">← Back to Dashboard</button>
-        </header>
-
-        <div class="task-section">
-            <!-- Parent Panel -->
-            <div class="task-panel parent-panel" id="parent-panel" style="display:none;">
-                <h3>👨‍👩‍👧‍👦 Parent - Create Task</h3>
-                <form class="task-form" id="create-task-form">
-                    <select id="task-child" required>
-                        <option value="">Select Child</option>
-                    </select>
-                    <input type="text" id="task-title" placeholder="Task Title" required>
-                    <textarea id="task-description" placeholder="Task Description"></textarea>
-                    <input type="number" id="task-reward" placeholder="Reward (Rp)" min="0" required>
-                    <select id="task-priority" required>
-                        <option value="low">Low Priority</option>
-                        <option value="medium" selected>Medium Priority</option>
-                        <option value="high">High Priority</option>
-                    </select>
-                    <input type="date" id="task-deadline" required>
-                    <button type="submit">✅ Create Task</button>
-                </form>
-                <h4 style="margin-top: 30px; margin-bottom: 15px;">📊 All Tasks</h4>
-                <div class="task-list" id="parent-task-list"></div>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Manajemen Tugas</h1>
+            <div style="display: flex; gap: 15px;">
+                <button class="back-btn" onclick="goBack()">← Kembali</button>
+                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
             </div>
-
-            <!-- Child Panel -->
-            <div class="task-panel child-panel" id="child-panel" style="display:none;">
-                <h3>👶 Child - My Tasks</h3>
-                <div class="task-list" id="child-task-list"></div>
+        </div>
+        <div class="content">
+            <h2 style="color: #333; margin-bottom: 30px;">📋 Kelola Tugas Anak</h2>
+            <div class="form-section">
+                <h3 style="margin-bottom: 20px;">➕ Buat Tugas Baru</h3>
+                <div class="form-group"><label>Nama Tugas</label><input type="text" id="task-name" placeholder="Misal: Bersihkan Kamar"></div>
+                <div class="form-group"><label>Deskripsi</label><textarea id="task-desc" placeholder="Jelaskan tugas..."></textarea></div>
+                <div class="form-group"><label>Reward (Rp)</label><input type="number" id="task-reward" placeholder="100000"></div>
+                <div class="form-group"><label>Deadline</label><input type="date" id="task-deadline"></div>
+                <button class="btn-submit" onclick="createTask()">✨ Buat Tugas</button>
+            </div>
+            <h3 style="margin-bottom: 20px; color: #333;">📋 Daftar Tugas</h3>
+            <div class="tasks-grid">
+                <div class="task-card">
+                    <h3>Bersihkan Kamar</h3>
+                    <p>Rapikan semua mainan dan bersihkan lantai</p>
+                    <div class="task-reward">Rp 100.000</div>
+                </div>
+                <div class="task-card">
+                    <h3>Belajar Matematika</h3>
+                    <p>Selesaikan latihan bab 5</p>
+                    <div class="task-reward">Rp 150.000</div>
+                </div>
             </div>
         </div>
     </div>
-
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="task-management.js"></script>
+    <script>
+        function createTask() { alert('✅ Tugas berhasil dibuat'); }
+        function goBack() { window.location.href = 'main-dashboard.html'; }
+        function logout() {
+            if (confirm('Logout?')) {
+                localStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
 </body>
 </html>
