@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lengkapi Tugas - SVGWork</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+        .header h1 { color: #667eea; font-size: 2em; }
+        .back-btn, .logout-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .logout-btn { background: #ff6b6b; }
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+        .content h2 { color: #333; margin-bottom: 30px; font-size: 2em; }
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .task-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 25px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        .task-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+        .task-card h3 { color: #333; margin-bottom: 10px; }
+        .task-card p { color: #666; font-size: 0.95em; margin-bottom: 10px; }
+        .task-reward {
+            background: #ffd93d;
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        .task-status {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .task-status.pending { background: #fff3cd; color: #856404; }
+        .task-status.done { background: #d4edda; color: #155724; }
+        .btn-complete {
+            background: #51cf66;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+        }
+        .btn-complete:hover { background: #40c057; }
+        .btn-complete:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✅ Lengkapi Tugas</h1>
+            <div style="display: flex; gap: 15px;">
+                <button class="back-btn" onclick="goBack()">← Kembali</button>
+                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            </div>
+        </div>
+        <div class="content">
+            <h2>✅ Tugas yang Harus Diselesaikan</h2>
+            <div class="tasks-grid" id="tasks-container">
+                <div class="empty-state">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            const userRole = localStorage.getItem('userRole');
+            if (userRole !== 'child') {
+                alert('Halaman ini hanya untuk anak!');
+                window.location.href = 'main-dashboard.html';
+            }
+            loadTasks();
+        });
+
+        function loadTasks() {
+            const tasks = [
+                { id: 1, name: 'Bersihkan Kamar', desc: 'Rapikan mainan dan bersihkan lantai', reward: 100000, status: 'pending' },
+                { id: 2, name: 'Belajar Matematika', desc: 'Selesaikan latihan bab 5', reward: 150000, status: 'pending' },
+                { id: 3, name: 'Membantu di Rumah', desc: 'Bantu orang tua dengan pekerjaan rumah', reward: 75000, status: 'pending' }
+            ];
+
+            const container = document.getElementById('tasks-container');
+            container.innerHTML = '';
+
+            if (tasks.length === 0) {
+                container.innerHTML = '<div class="empty-state"><p>Tidak ada tugas</p></div>';
+                return;
+            }
+
+            tasks.forEach(task => {
+                const card = document.createElement('div');
+                card.className = 'task-card';
+                const isDone = task.status === 'done';
+                card.innerHTML = `
+                    <h3>${task.name}</h3>
+                    <p>${task.desc}</p>
+                    <div class="task-reward">Rp ${task.reward.toLocaleString('id-ID')}</div>
+                    <div class="task-status ${task.status}">${isDone ? '✅ Selesai' : '⏳ Pending'}</div>
+                    <button class="btn-complete" ${isDone ? 'disabled' : ''} onclick="completeTask(${task.id})">${isDone ? '✅ Sudah Selesai' : '✓ Tandai Selesai'}</button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function completeTask(taskId) {
+            alert('✅ Tugas berhasil diselesaikan! Orang tua akan memverifikasi.');
+            loadTasks();
+        }
+
+        function goBack() { window.location.href = 'main-dashboard.html'; }
+        function logout() {
+            if (confirm('Logout?')) {
+                localStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>
